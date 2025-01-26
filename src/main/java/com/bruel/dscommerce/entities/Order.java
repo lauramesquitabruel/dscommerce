@@ -6,11 +6,13 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name="order")
+@Table(name="tb_order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //salvar no bd como UTC
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
     private OrderStatus status;
 
