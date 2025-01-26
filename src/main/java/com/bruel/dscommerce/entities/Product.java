@@ -14,7 +14,7 @@ public class Product {
     private Long id;
     private String name;
     @Column(columnDefinition = "TEXT")
-    private String desc;
+    private String descr;
     private Double price;
     private String imgUrl;
 
@@ -30,10 +30,10 @@ public class Product {
     @OneToMany(mappedBy = "id.product")
     private Set<OrderItem> items = new HashSet<>();
 
-    public Product(Long id, String name, String desc, Double price, String imgUrl) {
+    public Product(Long id, String name, String descr, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
-        this.desc = desc;
+        this.descr = descr;
         this.price = price;
         this.imgUrl = imgUrl;
     }
@@ -55,11 +55,11 @@ public class Product {
     }
 
     public String getDesc() {
-        return desc;
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDesc(String descr) {
+        this.descr = descr;
     }
 
     public Double getPrice() {
