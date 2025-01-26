@@ -3,6 +3,7 @@ package com.bruel.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,6 +24,11 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    //mapeamento do relacionamento 1:N
+    //é mapeado através do atributo id que tem os atributos order e product
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product(Long id, String name, String desc, Double price, String imgUrl) {
         this.id = id;
@@ -74,5 +80,14 @@ public class Product {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    //acessar os pedidos através do produto
+    public List<Order> getOrders() {
+        return items.stream().map(OrderItem::getOrder).toList();
     }
 }
