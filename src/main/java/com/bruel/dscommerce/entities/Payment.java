@@ -1,12 +1,14 @@
 package com.bruel.dscommerce.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 
+@Entity
+@Table(name="payment")
 public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;

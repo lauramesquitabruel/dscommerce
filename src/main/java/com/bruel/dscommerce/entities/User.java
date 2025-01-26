@@ -13,6 +13,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    //garantindo que o email é único para cada usuário
+    @Column(unique = true)
     private String email;
     private String phone;
     private LocalDate birthDate;
