@@ -47,4 +47,11 @@ public class ProductController {
         //informa que o objeto foi criado e retorna o link para ele
         return ResponseEntity.created(uri).body(productDTO);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO productDTO){
+        //os metódos por padrão retornam um Optional em caso de ero
+        productDTO = productService.update(id, productDTO);
+        return ResponseEntity.ok(productDTO);
+    }
 }
