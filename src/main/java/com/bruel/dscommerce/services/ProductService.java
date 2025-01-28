@@ -29,4 +29,19 @@ public class ProductService {
         Page<Product> result = productRepository.findAll(pageable);
         return result.map(ProductDTO::new);
     }
+
+    @Transactional
+    public ProductDTO insert(ProductDTO productDTO){
+        //mapeia a requisição recebida para um novo produto
+         Product p = new Product();
+         p.setName(productDTO.getName());
+         p.setDesc(productDTO.getDescr());
+         p.setPrice(productDTO.getPrice());
+         p.setImgUrl(productDTO.getImgUrl());
+
+         //salva a requisição no banco e obtem uma nova referência para ele
+         p = productRepository.save(p);
+
+         return new ProductDTO(p);
+    }
 }
