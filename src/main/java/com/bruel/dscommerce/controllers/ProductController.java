@@ -5,8 +5,11 @@ import com.bruel.dscommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,21 +23,28 @@ public class ProductController {
 
     //indica o verbo da requisição
     @GetMapping(value = "/{id}")
-    public ProductDTO findById(@PathVariable Long id){
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
         //os metódos por padrão retornam um Optional em caso de ero
-        return productService.findById(id);
-
+        ProductDTO productDTO = productService.findById(id);
+        return ResponseEntity.ok(productDTO);
     }
 
     //rota = /products?size=12&page=n&sort=atr
     @GetMapping()
-    public Page<ProductDTO> findAll(Pageable pageable){
-        return productService.findAll(pageable);
-
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
+        Page<ProductDTO> productDTO = productService.findAll(pageable);
+        return ResponseEntity.ok(productDTO);
     }
 
     @PostMapping
-    public ProductDTO insert(@RequestBody ProductDTO productDTO){
-        return productService.insert(productDTO);
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO productDTO){
+        productDTO = productService.insert(productDTO);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(productDTO.getId())
+                .toUri();
+        //informa que o objeto foi criado e retorna o link para ele
+        return ResponseEntity.created(uri).body(productDTO);
     }
 }
