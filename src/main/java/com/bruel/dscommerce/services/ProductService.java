@@ -13,9 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Service
 public class ProductService {
@@ -39,13 +37,13 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO productDTO){
         //mapeia a requisição recebida para um novo produto
-         Product product = new Product();
-         copyDtoToEntity(productDTO, product);
+        Product product = new Product();
+        copyDtoToEntity(productDTO, product);
 
-         //salva a requisição no banco e obtem uma nova referência para ele
-         product = productRepository.save(product);
+        //salva a requisição no banco e obtem uma nova referência para ele
+        product = productRepository.save(product);
 
-         return new ProductDTO(product);
+        return new ProductDTO(product);
     }
 
     @Transactional
