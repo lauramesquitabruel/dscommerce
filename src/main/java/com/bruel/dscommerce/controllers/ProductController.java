@@ -30,10 +30,11 @@ public class ProductController {
         return ResponseEntity.ok(productDTO);
     }
 
-    //rota = /products?size=12&page=n&sort=atr
+    //rota = /products?size=12&page=n&sort=atr&name=nome
     @GetMapping()
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
-        Page<ProductDTO> productDTO = productService.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(
+            @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable){
+        Page<ProductDTO> productDTO = productService.findAll(name, pageable);
         return ResponseEntity.ok(productDTO);
     }
 

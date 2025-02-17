@@ -5,7 +5,6 @@ import com.bruel.dscommerce.entities.Product;
 import com.bruel.dscommerce.repositories.ProductRepository;
 import com.bruel.dscommerce.services.exceptions.DatabaseException;
 import com.bruel.dscommerce.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
@@ -29,8 +29,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable){
-        Page<Product> result = productRepository.findAll(pageable);
+    public Page<ProductDTO> findAll(String name, Pageable pageable){
+        Page<Product> result = productRepository.searchByName(name, pageable);
         return result.map(ProductDTO::new);
     }
 
