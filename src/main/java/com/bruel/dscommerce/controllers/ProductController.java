@@ -1,6 +1,7 @@
 package com.bruel.dscommerce.controllers;
 
 import com.bruel.dscommerce.dtos.ProductDTO;
+import com.bruel.dscommerce.dtos.ProductMinDTO;
 import com.bruel.dscommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class ProductController {
 
     //rota = /products?size=12&page=n&sort=atr&name=nome
     @GetMapping()
-    public ResponseEntity<Page<ProductDTO>> findAll(
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable){
-        Page<ProductDTO> productDTO = productService.findAll(name, pageable);
-        return ResponseEntity.ok(productDTO);
+        Page<ProductMinDTO> productMinDTO = productService.findAll(name, pageable);
+        return ResponseEntity.ok(productMinDTO);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")

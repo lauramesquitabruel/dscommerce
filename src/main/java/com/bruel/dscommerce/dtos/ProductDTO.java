@@ -1,10 +1,15 @@
 package com.bruel.dscommerce.dtos;
 
 
+import com.bruel.dscommerce.entities.Category;
 import com.bruel.dscommerce.entities.Product;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //as validações dos dados são nos DTOs
 public class ProductDTO {
@@ -18,6 +23,9 @@ public class ProductDTO {
     private Double price;
     private String imgUrl;
 
+    @NotEmpty(message = "Deve ter no mínimo uma categoria")
+    private List<CategoryDTO> categories = new ArrayList<>();
+
     public ProductDTO(){}
 
     public ProductDTO(Product product) {
@@ -26,6 +34,9 @@ public class ProductDTO {
         descr = product.getDesc();
         price = product.getPrice();
         imgUrl = product.getImgUrl();
+        for (Category cat : product.getCategories()){
+            categories.add(new CategoryDTO(cat));
+        }
     }
 
     //DTOs geralmente não têm setters
@@ -47,5 +58,9 @@ public class ProductDTO {
 
     public String getImgUrl() {
         return imgUrl;
+    }
+
+    public List<CategoryDTO> getCategories() {
+        return categories;
     }
 }

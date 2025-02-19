@@ -1,6 +1,9 @@
 package com.bruel.dscommerce.services;
 
+import com.bruel.dscommerce.dtos.CategoryDTO;
 import com.bruel.dscommerce.dtos.ProductDTO;
+import com.bruel.dscommerce.dtos.ProductMinDTO;
+import com.bruel.dscommerce.entities.Category;
 import com.bruel.dscommerce.entities.Product;
 import com.bruel.dscommerce.repositories.ProductRepository;
 import com.bruel.dscommerce.services.exceptions.DatabaseException;
@@ -29,9 +32,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
         Page<Product> result = productRepository.searchByName(name, pageable);
-        return result.map(ProductDTO::new);
+        return result.map(ProductMinDTO::new);
     }
 
     @Transactional
@@ -81,5 +84,10 @@ public class ProductService {
         entity.setDesc(productDTO.getDescr());
         entity.setPrice(productDTO.getPrice());
         entity.setImgUrl(productDTO.getImgUrl());
+        for(CategoryDTO catDTO : productDTO.getCategories()){
+            Category category = new Category();
+            category.setId(catDTO.getId());
+            entity.getCategories().add(category);
+        }
     }
 }
