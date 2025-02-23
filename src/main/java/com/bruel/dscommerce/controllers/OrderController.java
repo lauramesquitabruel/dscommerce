@@ -18,7 +18,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
         OrderDTO orderDTO = orderService.findById(id);
@@ -34,7 +34,6 @@ public class OrderController {
                 .path("/{id}")
                 .buildAndExpand(orderDTO.getId())
                 .toUri();
-        //informa que o objeto foi criado e retorna o link para ele
         return ResponseEntity.created(uri).body(orderDTO);
     }
 

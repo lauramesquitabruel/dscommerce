@@ -3,6 +3,7 @@ package com.bruel.dscommerce.controllers.handlers;
 import com.bruel.dscommerce.dtos.CustomError;
 import com.bruel.dscommerce.dtos.ValidationError;
 import com.bruel.dscommerce.services.exceptions.DatabaseException;
+import com.bruel.dscommerce.services.exceptions.ForbiddenException;
 import com.bruel.dscommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,13 @@ public class ControllerExceptionHandler {
             error.addError(f.getField(), f.getDefaultMessage());
         }
 
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbiddenException(ForbiddenException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
 }
