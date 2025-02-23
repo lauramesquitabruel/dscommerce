@@ -3,10 +3,7 @@ package com.bruel.dscommerce.dtos;
 
 import com.bruel.dscommerce.entities.Category;
 import com.bruel.dscommerce.entities.Product;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,7 @@ public class ProductDTO {
     private String name;
     @Size(min = 10, message = "Descrição precisa ter no mínimo 10 caracteres")
     private String descr;
+    @NotNull(message = "Campo requirido")
     @Positive(message = "Preço precisa ser positivo")
     private Double price;
     private String imgUrl;
