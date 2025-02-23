@@ -3,6 +3,7 @@ package com.bruel.dscommerce.dtos;
 import com.bruel.dscommerce.entities.Order;
 import com.bruel.dscommerce.entities.OrderItem;
 import com.bruel.dscommerce.enums.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class OrderDTO {
     private OrderStatus status;
     private UserMinDTO client;
     private PaymentDTO payment;
+    @NotEmpty(message = "Deve haver pelo menos um item")
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(Long id, Instant moment, OrderStatus status, UserMinDTO client, PaymentDTO payment) {
